@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import GlobalStyle from "./assets/css/GlobalStyle.js";
+import { UserProvider } from "./contexts/ContextApi.js";
+import SignUp from "./pages/AuthPages/SignUp.js";
+import SignIn from "./pages/AuthPages/SignIn.js";
+import { ToastContainer } from 'react-toastify';
+import SearchScreen from "./pages/Dashboard/SearchScreen.js";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <ToastContainer/>
+    <UserProvider>
+      <BrowserRouter>
+        <GlobalStyle />
+        <Routes>
+          <Route path="/" element={<SignUp />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/dashboard" element={<SearchScreen/>} />
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
+    </>
+    
   );
 }
 
