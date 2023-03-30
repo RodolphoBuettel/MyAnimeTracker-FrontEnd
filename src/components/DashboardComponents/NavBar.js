@@ -18,6 +18,7 @@ export default function NavBar() {
       <MenuButton
         onMouseEnter={handleMenuMouseEnter}
       >
+        <ion-icon name="menu-outline" size="large"></ion-icon>
       </MenuButton>
       <Sidebar isOpen={isOpen} onMouseLeave={handleMenuMouseLeave}>
         <Nav>
@@ -30,14 +31,20 @@ export default function NavBar() {
 }
 
 const MenuButton = styled.button`
-background-color: inherit;
+background-color: blue;
+display: flex;
+align-items: initial;
   color: white;
   width: 100px;
-  height: 100vh;
+  height: 50vh;
   padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  ion-icon{
+    width: 200px;
+    size: 200px;
+  }
 `;
 
 const Sidebar = styled.div`

@@ -15,6 +15,7 @@ export default function SearchAnimes() {
 
   return (
     <Container>
+      <NavBar />
       <SearchForm onSubmit={handleSubmit}>
         <SearchInput
           type="text"
@@ -25,18 +26,22 @@ export default function SearchAnimes() {
         />
         <SearchButton type="submit">Buscar</SearchButton>
       </SearchForm>
-      <NavBar />
     </Container>
   );
 }
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: row;
   background-color: #333333;
   height: 100vh;
   padding-top: 20px;
 `;
 
 const SearchForm = styled.form`
+background-color: blue;
+height: 60px;
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,7 +57,7 @@ const SearchInput = styled.input`
   border: none;
   border-radius: 5px;
   margin-right: 5px;
-  width: 100%;
+  width: 80%;
 
   @media screen and (max-width: 768px) {
     margin-right: 0;

@@ -18,7 +18,7 @@ function App() {
             <Route path="/" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/dashboard" element={<SearchScreen />} />
-            <Route path="searchanimes" element={<SearchAnimes />} />
+            <Route path="/searchanimes" element={<SearchAnimes />} />
           </Routes>
         </BrowserRouter>
       </UserProvider>
