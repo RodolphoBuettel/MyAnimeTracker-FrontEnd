@@ -1,18 +1,69 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { allAnime } from "../../services/dashboardApi";
 import AnimeBox from "./AnimeBox";
 import NavBar from "./NavBar";
+import InfiniteScroll from "react-infinite-scroller";
+
+
+function useIntersectionObserver(ref, options) {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting);
+    }, options);
+
+    observer.observe(ref.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [ref, options]);
+
+  return isIntersecting;
+}
 
 export default function SearchAnimes() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [animes, setAnimes] = useState([]);
+  const [limit, setLimit]  = useState(10);
+  const [offset, setOffset] = useState(7);
   const inputRef = useRef(null);
-  const arr = [1,2,3,4,5,6];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const url = `https://kitsu.io/api/edge/anime?page[limit]=${limit}&page[offset]=${offset}`;
+      const filters = {};
+      const response = await allAnime(url, filters);
+      setAnimes([...animes, ...response]);
+    };
+    
+    fetchData();
+  }, [limit, offset]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(searchTerm);
     setSearchTerm("");
   };
+
+  const loadMore = () => {
+    setOffset((prevOffset) => prevOffset + limit);
+  };
+
+  const loadMoreRef = useRef(null);
+  const isIntersecting = useIntersectionObserver(loadMoreRef, {
+    rootMargin: "0px 0px 100% 0px",
+  });
+
+  useEffect(() => {
+    if (isIntersecting) {
+      loadMore();
+    }
+  }, [isIntersecting]);
+
 
   return (
     <Container>
@@ -28,9 +79,12 @@ export default function SearchAnimes() {
           />
           <SearchButton type="submit">Buscar</SearchButton>
         </SearchForm>
-        <AnimeContent>
-          {arr.map((a,index)=> <AnimeBox a = {a} key={index}/>)}
-        </AnimeContent>
+          <AnimeContent>
+            {animes.map((anime) => (
+              <AnimeBox key={anime.id} anime={anime} />
+            ))}
+             <div ref={loadMoreRef}></div>
+          </AnimeContent>
       </Content>
     </Container>
   );
@@ -40,20 +94,23 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   background-color: #333333;
-  height: 100vh;
-  padding-top: 20px;
+  min-height: 100vh;
+  z-index: 1;
 `;
 
 const Content = styled.div`
- background-color: red;
  width: 100%;
 `;
 
 const AnimeContent = styled.div`
 display: flex;
-justify-content: space-around;
+justify-content: space-evenly;
 padding-top: 20px;
 flex-wrap: wrap;
+overflow: scroll;
+overflow-x: hidden;
+max-height: 100vh;
+margin: 0 auto;
 `;
 
 const SearchForm = styled.form`
@@ -63,10 +120,6 @@ height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
-/* 
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  } */
 `;
 
 const SearchInput = styled.input`
@@ -91,8 +144,4 @@ const SearchButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-
-  /* @media screen and (max-width: 768px) {
-    width: 100%;
-  } */
 `;
