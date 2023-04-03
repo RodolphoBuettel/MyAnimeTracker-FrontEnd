@@ -1,11 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useContext } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { allAnime } from "../../services/dashboardApi";
 import AnimeBox from "./AnimeBox";
 import NavBar from "./NavBar";
-import InfiniteScroll from "react-infinite-scroller";
-
 
 function useIntersectionObserver(ref, options) {
   const [isIntersecting, setIsIntersecting] = useState(false);
@@ -81,7 +79,7 @@ export default function SearchAnimes() {
         </SearchForm>
           <AnimeContent>
             {animes.map((anime) => (
-              <AnimeBox key={anime.id} anime={anime} />
+              <AnimeBox key={anime.id} anime={anime}/>
             ))}
              <div ref={loadMoreRef}></div>
           </AnimeContent>
@@ -99,7 +97,7 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
- width: 100%;
+ width: 1000%;
 `;
 
 const AnimeContent = styled.div`
@@ -111,10 +109,10 @@ overflow: scroll;
 overflow-x: hidden;
 max-height: 100vh;
 margin: 0 auto;
+padding-left: 25px;
 `;
 
 const SearchForm = styled.form`
-background-color: blue;
 height: 60px;
   flex: 1;
   display: flex;

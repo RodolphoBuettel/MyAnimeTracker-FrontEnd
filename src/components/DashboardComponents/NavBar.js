@@ -31,10 +31,10 @@ export default function NavBar() {
 }
 
 const MenuButton = styled.button`
-background-color: blue;
+background-color:inherit ;
 display: flex;
 align-items: initial;
-  color: white;
+  color: black;
   width: 100px;
   height: 50vh;
   padding: 10px;

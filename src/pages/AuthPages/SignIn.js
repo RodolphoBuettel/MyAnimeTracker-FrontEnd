@@ -6,7 +6,7 @@ import UserContext from "../../contexts/ContextApi";
 import { login } from "../../services/authApi";
 
 export default function SignIn() {
-    const { imageUrl } = useContext(UserContext);
+    const { imageUrl, setUserData } = useContext(UserContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -22,7 +22,8 @@ export default function SignIn() {
       
           try {
             const userData = await login(user);
-            console.log(userData);
+            setUserData(userData);
+            localStorage.setItem('myToken', JSON.stringify(userData));
             toast.success("Login realizado com sucesso!", {
               position: toast.POSITION.TOP_CENTER,
             });
