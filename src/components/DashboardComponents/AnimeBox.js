@@ -1,20 +1,36 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Options from "./Options";
-import UserContext from "../../contexts/ContextApi";
 import { getAnime } from "../../services/myAnimesApi";
+import { useNavigate } from "react-router-dom";
 
 
 export default function AnimeBox({ anime }) {
     const imageUrl = anime.attributes.posterImage.tiny;
+    const [myAnime, setMyAnime] = useState({});
+    const token = JSON.parse(localStorage.getItem('myToken'));
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await getAnime(anime.id, token);
+            setMyAnime(result);
+        };
+
+        fetchData();
+    }, [anime.id, token]);
+
+    function animeDetails() {
+        navigate(`/anime/:${anime.id}`);
+    }
 
     return (
         <Anime>
-            <h1>
+            <h1 onClick={animeDetails}>
                 {anime.attributes.canonicalTitle}
             </h1>
             <Img imageUrl={imageUrl}></Img>
-            <Options id={anime.id} />
+            <Options id={anime.id} animeId={myAnime.animeId} />
         </Anime>
     );
 };
@@ -36,6 +52,9 @@ h1{
     margin-top: 15px;
     margin-bottom: 20px;
 }
+@media screen and (max-width: 450px) {
+    width: 100%;
+  }
 `;
 
 const Img = styled.div`

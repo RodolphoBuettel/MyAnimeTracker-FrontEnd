@@ -1,7 +1,6 @@
 import api from "./api";
 
 export async function postAnime(id, token){
-    console.log(token);
     const response = await api.post("/myanimes", {id}, 
     {
         headers: {
@@ -21,9 +20,7 @@ export async function getAnimes(token){
 }
 
 export async function deleteAnime(id, token){
-    console.log(token);
-    console.log(id);
-    const response = await api.delete("/myanimes", {id}, 
+    const response = await api.delete(`/myanimes/${id}`, 
     {
         headers: {
             Authorization: `Bearer ${token}`,

@@ -31,12 +31,12 @@ export default function NavBar() {
 }
 
 const MenuButton = styled.button`
-background-color:inherit ;
+background-color: black;
 display: flex;
 align-items: initial;
-  color: black;
+  color: white;
   width: 100px;
-  height: 50vh;
+  height: 60px;
   padding: 10px;
   border: none;
   border-radius: 5px;

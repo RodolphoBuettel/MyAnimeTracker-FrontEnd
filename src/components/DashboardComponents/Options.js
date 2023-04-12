@@ -1,49 +1,42 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { deleteAnime, getAnime, getAnimes, postAnime } from "../../services/myAnimesApi";
-import UserContext from "../../contexts/ContextApi";
+import { deleteAnime, postAnime } from "../../services/myAnimesApi";
 
 
-export default function Options({id}) {
-    
+export default function Options({ id, animeId }) {
     const [like, setLike] = useState("white");
     const [dislike, setDislike] = useState("white");
-    const [myAnime, setMyAnime] = useState({});
     const token = JSON.parse(localStorage.getItem('myToken'));
 
     useEffect(() => {
-        const fetchData = async () => {
-         const result = await getAnime(id, token);
-            setMyAnime(result);
-        };
-        
-        fetchData();
-      }, [id, token]);
- 
-    const {animeId} = myAnime;
-    if(animeId === id){
-        console.log("ola");
-        setLike("red");
-    }
+        if (Number(id) === animeId) {
+            setLike("red");
+        }
+    }, [animeId, id]);
 
-   async function Favorite(){
-        if(like === "white"){
+    async function Favorite() {
+        if (like === "white") {
             setLike("red");
             setDislike("white");
-            // try{
-            //     await postAnime(Number(id), token);  
-            // }catch(err){
-            //     console.log(err);
-            // }
+            try{
+                await postAnime(Number(id), token);  
+            }catch(err){
+                console.log(err);
+            }
             return;
         }
         setLike("white");
     };
 
-    async function ExcludeFavorite(){
-        if(dislike === "white"){
+    async function ExcludeFavorite() {
+        if (dislike === "white") {
             setDislike("red");
             setLike("white");
+            try{
+                await deleteAnime(Number(id), token);  
+            }catch(err){
+                console.log(err);
+            }
             return;
         }
         setDislike("white");
@@ -51,13 +44,8 @@ export default function Options({id}) {
 
 
     return (
-        <Buttons like={like} dislike={dislike} >
-            {animeId === id ? (
-                <ion-icon size="large" name="heart" onClick={Favorite}></ion-icon>
-            ): (
+        <Buttons like={like} dislike={dislike}>
             <ion-icon size="large" name="heart" onClick={Favorite}></ion-icon>
-            )
-                }
             <ion-icon size="large" name="heart-dislike" onClick={ExcludeFavorite}></ion-icon>
         </Buttons>
     )

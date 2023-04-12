@@ -6,6 +6,7 @@ import SignIn from "./pages/AuthPages/SignIn.js";
 import { ToastContainer } from 'react-toastify';
 import SearchScreen from "./pages/Dashboard/SearchScreen.js";
 import SearchAnimes from "./components/DashboardComponents/SearchAnimes.js";
+import AnimeDetails from "./pages/Dashboard/AnimeDetails.js";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/dashboard" element={<SearchScreen />} />
             <Route path="/searchanimes" element={<SearchAnimes />} />
+            <Route path="/anime/:id" element={<AnimeDetails />} />
           </Routes>
         </BrowserRouter>
       </UserProvider>
