@@ -20,6 +20,8 @@ export default function AnimeBox({ anime }) {
         fetchData();
     }, [anime.id, token]);
 
+    console.log(myAnime);
+
     function animeDetails() {
         navigate(`/anime/:${anime.id}`);
     }
@@ -51,6 +53,7 @@ h1{
     color: white;
     margin-top: 15px;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 @media screen and (max-width: 450px) {
     width: 100%;

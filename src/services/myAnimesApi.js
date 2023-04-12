@@ -36,4 +36,16 @@ export async function getAnime(id, token){
         },
     });
     return response.data;
-}
+};
+
+export async function addEp(id, token, num){
+    console.log(token);
+    const response = await api.put(`/myanimes/${id}`, {num}, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+    });
+
+    console.log(response.data);
+    return response.data;
+};

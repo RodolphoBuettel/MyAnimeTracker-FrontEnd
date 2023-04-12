@@ -10,27 +10,20 @@ export default function Options({ id, animeId }) {
 
     useEffect(() => {
         if (Number(id) === animeId) {
-            setLike("red");
+            setLike("yellow");
         }
     }, [animeId, id]);
 
     async function Favorite() {
         if (like === "white") {
-            setLike("red");
-            setDislike("white");
+            setLike("yellow");
             try{
                 await postAnime(Number(id), token);  
             }catch(err){
                 console.log(err);
             }
             return;
-        }
-        setLike("white");
-    };
-
-    async function ExcludeFavorite() {
-        if (dislike === "white") {
-            setDislike("red");
+        }else if(like === "yellow"){
             setLike("white");
             try{
                 await deleteAnime(Number(id), token);  
@@ -39,29 +32,43 @@ export default function Options({ id, animeId }) {
             }
             return;
         }
-        setDislike("white");
-    }
+        setLike("white");
+    };
+
+    // async function ExcludeFavorite() {
+    //     if (dislike === "white") {
+    //         setDislike("red");
+    //         setLike("white");
+    //         try{
+    //             await deleteAnime(Number(id), token);  
+    //         }catch(err){
+    //             console.log(err);
+    //         }
+    //         return;
+    //     }
+    //     setDislike("white");
+    // }
 
 
     return (
         <Buttons like={like} dislike={dislike}>
-            <ion-icon size="large" name="heart" onClick={Favorite}></ion-icon>
-            <ion-icon size="large" name="heart-dislike" onClick={ExcludeFavorite}></ion-icon>
+            <ion-icon size="large" name="star" onClick={Favorite}></ion-icon>
+            {/* <ion-icon size="large" name="star" onClick={Favorite}></ion-icon> */}
         </Buttons>
     )
 };
 
 const Buttons = styled.div`
 display: flex;
-justify-content: space-between;
+justify-content: center;
 width: 200px;
 margin-top: 5px;
-ion-icon[name="heart"] {
+ion-icon[name="star"] {
   color:${props => props.like};
   cursor: pointer;
 }
-ion-icon[name="heart-dislike"] {
+/* ion-icon[name="star"] {
   color:${props => props.dislike};
   cursor: pointer;
-}
+} */
 `;

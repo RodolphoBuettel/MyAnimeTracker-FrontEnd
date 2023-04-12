@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getAnimeById } from "../../services/dashboardApi";
 import styled from "styled-components";
-import Options from "../../components/DashboardComponents/Options";
 
 export default function AnimeDetails() {
     const { id } = useParams();
+    let idNumber = id.slice(1);
     const [anime, setAnime] = useState();
     const [imageUrl, setImageUrl] = useState("");
     const [backgroundImgUrl, setBackgroundImgUrl] = useState("");
@@ -16,7 +16,7 @@ export default function AnimeDetails() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const url = `https://kitsu.io/api/edge/anime/${id[1]}`;
+            const url = `https://kitsu.io/api/edge/anime/${idNumber}`;
             const response = await getAnimeById(url);
             setAnime(response);
             setImageUrl(response.attributes.posterImage.small);
@@ -27,7 +27,7 @@ export default function AnimeDetails() {
             setEpisodes(response.attributes.episodeCount);
         };
         fetchData();
-    }, [id]);
+    }, [idNumber]);
 
     console.log(anime);
 
