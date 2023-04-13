@@ -23,7 +23,7 @@ export default function NavBar() {
       <Sidebar isOpen={isOpen} onMouseLeave={handleMenuMouseLeave}>
         <Nav>
           <Link style = {{textDecoration:"none"}} to = {"/searchanimes"}><NavItem>Buscar Animes</NavItem></Link>
-          <NavItem href="#">Meus Animes</NavItem>
+          <Link style = {{textDecoration:"none"}} to = {"/dashboard"}><NavItem>Meus Animes</NavItem></Link>
         </Nav>
       </Sidebar>
     </>
@@ -33,11 +33,10 @@ export default function NavBar() {
 const MenuButton = styled.button`
 background-color: black;
 display: flex;
-align-items: initial;
+align-items: center;
   color: white;
-  width: 100px;
+  width: 70px;
   height: 60px;
-  padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -63,7 +62,7 @@ const Nav = styled.nav`
   margin-top: 50px;
 `;
 
-const NavItem = styled.a`
+const NavItem = styled.div`
   padding: 10px;
   color: white;
   text-decoration: none;

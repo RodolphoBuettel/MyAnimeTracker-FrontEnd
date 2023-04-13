@@ -12,16 +12,16 @@ export default function MyAnimeBox({ anime }) {
     const [imgUrl, setImgUrl] = useState("");
     const [title, setTitle] = useState("");
     const token = JSON.parse(localStorage.getItem('myToken'));
-    const [episodesWatched, setEpisodesWatched] = useState([]);
+    const [episodesWatched, setEpisodesWatched] = useState(0);
     const [numEp, setNumEp] = useState(0);
 
     async function addEpisode() {
         try {
-            await addEp(anime.id, token, 1);
+            setEpisodesWatched(episodesWatched + 1);
+            await addEp(anime.animeId, token, (episodesWatched + 1));
         } catch (err) {
             console.log(err);
         }
-        // setEpisodesWatched(episodesWatched + 1);
     };
 
     const navigate = useNavigate();
@@ -39,6 +39,7 @@ export default function MyAnimeBox({ anime }) {
         };
         fetchData();
     }, [anime.animeId, anime.id, token]);
+
 
     function animeDetails() {
         navigate(`/anime/:${anime.animeId}`);

@@ -3,14 +3,13 @@ import NavBar from "../../components/DashboardComponents/NavBar";
 import { AnimeContent, Content, SearchButton, SearchForm, SearchInput } from "../../assets/css/SearchBoxStyle";
 import { useEffect, useState } from "react";
 import { getAnimes } from "../../services/myAnimesApi";
-import InfiniteScroll from 'react-infinite-scroller';
 import MyAnimeBox from "../../components/DashboardComponents/MyAnimeBox";
 
 export default function SearchScreen() {
     const token = JSON.parse(localStorage.getItem('myToken'));
     const [myAnimes, setMyAnimes] = useState([]);
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(10);
+    const [pageSize, setPageSize] = useState(10);
 
     const handleScroll = () => {
         const scrollTop = (document.documentElement
@@ -35,20 +34,20 @@ export default function SearchScreen() {
     }, []);
     
 
-    const fetchData = async (page, perPage) => {
-        const result = await getAnimes(token, page, perPage);
+    const fetchData = async (page, pageSize) => {
+        const result = await getAnimes(token, page, pageSize);
         setMyAnimes([...myAnimes, ...result]);
     };
 
     useEffect(() => {
-        fetchData(page, perPage);
-    }, [token, page, perPage]);
+        fetchData(page, pageSize);
+    }, [token, page, pageSize]);
 
     return <>
         <Dashboard>
-            <NavBar />
             <Content>
                 <SearchForm>
+                <NavBar />
                     <SearchInput
                         type="text"
                         placeholder="Pesquisar..."

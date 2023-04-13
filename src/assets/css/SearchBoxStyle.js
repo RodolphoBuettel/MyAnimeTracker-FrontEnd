@@ -7,7 +7,7 @@ export const Content = styled.div`
 export const AnimeContent = styled.div`
 display: flex;
 justify-content: space-evenly;
-padding-top: 20px;
+padding-top: 80px;
 flex-wrap: wrap;
 overflow: scroll;
 overflow-x: hidden;
@@ -19,9 +19,12 @@ padding-left: 25px;
 export const SearchForm = styled.form`
 height: 60px;
 background-color: black;
+position: fixed;
+width: 100%;
+z-index: 10;
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -32,7 +35,7 @@ export const SearchInput = styled.input`
   
   border-radius: 5px;
   margin-right: 5px;
-  width: 80%;
+  width: 70%;
 
   @media screen and (max-width: 768px) {
     margin-right: 0;

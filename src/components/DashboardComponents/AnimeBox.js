@@ -20,8 +20,6 @@ export default function AnimeBox({ anime }) {
         fetchData();
     }, [anime.id, token]);
 
-    console.log(myAnime);
-
     function animeDetails() {
         navigate(`/anime/:${anime.id}`);
     }

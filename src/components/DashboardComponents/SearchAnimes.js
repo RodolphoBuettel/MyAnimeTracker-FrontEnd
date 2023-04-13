@@ -27,45 +27,32 @@ function useIntersectionObserver(ref, options) {
 export default function SearchAnimes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [animes, setAnimes] = useState([]);
-  const [filteredAnimes, setFilteredAnimes] = useState([]);
   const [limit, setLimit] = useState(10);
   const [offset, setOffset] = useState(0);
   const inputRef = useRef(null);
-  const [lastResponse, setLastResponse] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       let url = `https://kitsu.io/api/edge/anime?page[limit]=${limit}&page[offset]=${offset}`;
-      // if (searchTerm) {
-      //   url = `https://kitsu.io/api/edge/anime?filter[text]=${searchTerm}`;
-      // }
       const response = await allAnime(url);
-      setLastResponse(response);
-      setAnimes( [...animes, ...response]);
+      setAnimes([...animes, ...response]);
     };
     fetchData();
-  }, [limit, offset, searchTerm]);
-  
-  // useEffect(() => {
-  //   setFilteredAnimes(
-  //     lastResponse.filter((anime) =>
-  //       anime.attributes.canonicalTitle
-  //         .toLowerCase()
-  //         .includes(searchTerm.toLowerCase())
-  //     )
-  //   );
-  // }, [searchTerm, lastResponse]);
+  }, [limit, offset]);
 
+  const fetchSearchData = async () => {
+    let url = `https://kitsu.io/api/edge/anime?filter[text]=${searchTerm}`;
+    const response = await allAnime(url);
+    setAnimes(response);
+    console.log(response);
+    setOffset(0);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setAnimes([]);
-    setOffset(0);
-    setLastResponse([]);
-    setFilteredAnimes([]);
-    setSearchTerm("");
+    fetchSearchData();
   };
-  
+
 
   const loadMore = () => {
     setOffset((prevOffset) => prevOffset + limit);
@@ -84,9 +71,9 @@ export default function SearchAnimes() {
 
   return (
     <Container>
-      <NavBar />
       <Content>
         <SearchForm onSubmit={handleSubmit}>
+          <NavBar />
           <SearchInput
             type="text"
             placeholder="Pesquisar..."
@@ -97,11 +84,10 @@ export default function SearchAnimes() {
           <SearchButton type="submit">Buscar</SearchButton>
         </SearchForm>
         <AnimeContent>
-          {filteredAnimes.length > 0
-            ? filteredAnimes.map((anime) => (
+            {searchTerm && animes.map((anime) => (
               <AnimeBox key={anime.id} anime={anime} />
-            ))
-            : animes.map((anime) => (
+            ))}
+            {!searchTerm && animes.map((anime) => (
               <AnimeBox key={anime.id} anime={anime} />
             ))}
           <div ref={loadMoreRef}></div>
@@ -113,6 +99,7 @@ export default function SearchAnimes() {
 
 const Container = styled.div`
   display: flex;
+  overflow-y: hidden;
   flex-direction: row;
   background-color: #333333;
   min-height: 100vh;

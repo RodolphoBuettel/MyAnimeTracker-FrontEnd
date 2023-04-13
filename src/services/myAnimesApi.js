@@ -10,11 +10,15 @@ export async function postAnime(id, token){
     return response.data; 
 };
 
-export async function getAnimes(token){
+export async function getAnimes(token, page, pageSize){
     const response = await api.get("/myanimes", {
         headers: {
             Authorization: `Bearer ${token}`
         },
+        params: {
+            page,
+            pageSize
+        }
     });
     return response.data;
 }
