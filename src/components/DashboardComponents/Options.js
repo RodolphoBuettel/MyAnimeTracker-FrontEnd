@@ -3,9 +3,8 @@ import styled from "styled-components";
 import { deleteAnime, postAnime } from "../../services/myAnimesApi";
 
 
-export default function Options({ id, animeId }) {
+export default function Options({ id, animeId, animeName }) {
     const [like, setLike] = useState("white");
-    const [dislike, setDislike] = useState("white");
     const token = JSON.parse(localStorage.getItem('myToken'));
 
     useEffect(() => {
@@ -17,17 +16,17 @@ export default function Options({ id, animeId }) {
     async function Favorite() {
         if (like === "white") {
             setLike("yellow");
-            try{
-                await postAnime(Number(id), token);  
-            }catch(err){
+            try {
+                await postAnime(Number(id), token, animeName.toLowerCase());
+            } catch (err) {
                 console.log(err);
             }
             return;
-        }else if(like === "yellow"){
+        } else if (like === "yellow") {
             setLike("white");
-            try{
-                await deleteAnime(Number(id), token);  
-            }catch(err){
+            try {
+                await deleteAnime(Number(id), token);
+            } catch (err) {
                 console.log(err);
             }
             return;
@@ -35,25 +34,9 @@ export default function Options({ id, animeId }) {
         setLike("white");
     };
 
-    // async function ExcludeFavorite() {
-    //     if (dislike === "white") {
-    //         setDislike("red");
-    //         setLike("white");
-    //         try{
-    //             await deleteAnime(Number(id), token);  
-    //         }catch(err){
-    //             console.log(err);
-    //         }
-    //         return;
-    //     }
-    //     setDislike("white");
-    // }
-
-
     return (
-        <Buttons like={like} dislike={dislike}>
+        <Buttons like={like}>
             <ion-icon size="large" name="star" onClick={Favorite}></ion-icon>
-            {/* <ion-icon size="large" name="star" onClick={Favorite}></ion-icon> */}
         </Buttons>
     )
 };

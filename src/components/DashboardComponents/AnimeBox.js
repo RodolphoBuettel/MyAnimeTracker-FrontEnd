@@ -30,7 +30,7 @@ export default function AnimeBox({ anime }) {
                 {anime.attributes.canonicalTitle}
             </h1>
             <Img imageUrl={imageUrl}></Img>
-            <Options id={anime.id} animeId={myAnime.animeId} />
+            <Options id={anime.id} animeId={myAnime.animeId} animeName = {anime.attributes.canonicalTitle} />
         </Anime>
     );
 };

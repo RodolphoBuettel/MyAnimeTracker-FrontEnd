@@ -20,11 +20,13 @@ export const SearchForm = styled.form`
 height: 60px;
 background-color: black;
 position: fixed;
-width: 100%;
+margin-top: -60px;
+width: 95%;
+margin-left: 60px;
 z-index: 10;
   flex: 1;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
 `;
 
@@ -32,7 +34,6 @@ export const SearchInput = styled.input`
   padding: 10px;
   font-size: 16px;
   border: none;
-  
   border-radius: 5px;
   margin-right: 5px;
   width: 70%;

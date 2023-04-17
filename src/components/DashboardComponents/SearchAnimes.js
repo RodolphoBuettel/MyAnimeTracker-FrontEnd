@@ -27,7 +27,8 @@ function useIntersectionObserver(ref, options) {
 export default function SearchAnimes() {
   const [searchTerm, setSearchTerm] = useState("");
   const [animes, setAnimes] = useState([]);
-  const [limit, setLimit] = useState(10);
+  const [filtredAnimes, setFiltredAnimes] = useState([]);
+  const [limit, setLimit] = useState(20);
   const [offset, setOffset] = useState(0);
   const inputRef = useRef(null);
 
@@ -40,11 +41,12 @@ export default function SearchAnimes() {
     fetchData();
   }, [limit, offset]);
 
+
   const fetchSearchData = async () => {
-    let url = `https://kitsu.io/api/edge/anime?filter[text]=${searchTerm}`;
+    let url = `https://kitsu.io/api/edge/anime?page[limit]=${limit}&page[offset]=${offset}&filter[text]=${searchTerm}`;
     const response = await allAnime(url);
+    setFiltredAnimes(response);
     setAnimes(response);
-    console.log(response);
     setOffset(0);
   };
 
@@ -72,24 +74,26 @@ export default function SearchAnimes() {
   return (
     <Container>
       <Content>
-        <SearchForm onSubmit={handleSubmit}>
-          <NavBar />
-          <SearchInput
-            type="text"
-            placeholder="Pesquisar..."
-            ref={inputRef}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <SearchButton type="submit">Buscar</SearchButton>
-        </SearchForm>
+        <NavBar />
+        <Contein>
+          <SearchForm onSubmit={handleSubmit}>
+            <SearchInput
+              type="text"
+              placeholder="Pesquisar..."
+              ref={inputRef}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <SearchButton type="submit">Buscar</SearchButton>
+          </SearchForm>
+        </Contein>
         <AnimeContent>
-            {searchTerm && animes.map((anime) => (
-              <AnimeBox key={anime.id} anime={anime} />
-            ))}
-            {!searchTerm && animes.map((anime) => (
-              <AnimeBox key={anime.id} anime={anime} />
-            ))}
+          {searchTerm && filtredAnimes.map((anime) => (
+            <AnimeBox key={anime.id} anime={anime} />
+          ))}
+          {!searchTerm && animes.map((anime) => (
+            <AnimeBox key={anime.id} anime={anime} />
+          ))}
           <div ref={loadMoreRef}></div>
         </AnimeContent>
       </Content>
@@ -104,4 +108,11 @@ const Container = styled.div`
   background-color: #333333;
   min-height: 100vh;
   z-index: 1;
+`;
+
+const Contein = styled.div`
+    display: flex;
+    background-color: blue;
+    align-items: center;
+    justify-content: center;
 `;

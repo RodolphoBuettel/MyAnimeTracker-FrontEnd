@@ -1,7 +1,7 @@
 import api from "./api";
 
-export async function postAnime(id, token){
-    const response = await api.post("/myanimes", {id}, 
+export async function postAnime(id, token, animeName ){
+    const response = await api.post("/myanimes", {id, animeName}, 
     {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -10,18 +10,45 @@ export async function postAnime(id, token){
     return response.data; 
 };
 
-export async function getAnimes(token, page, pageSize){
+// export async function getAnimeByName(searchTerm, token){
+//     console.log(searchTerm);
+//     console.log(token);
+//     const response = await api.get("/myanimes", {searchTerm}, {
+//         headers: {
+//             Authorization: `Bearer ${token}`
+//         },
+//         params: {
+//             searchTerm
+//         }
+//     });
+//     return response.data;
+// };
+
+export async function getAnimes(token, page, pageSize, searchTerm){
     const response = await api.get("/myanimes", {
         headers: {
             Authorization: `Bearer ${token}`
         },
         params: {
             page,
-            pageSize
+            pageSize,
+            searchTerm
         }
     });
     return response.data;
-}
+};
+
+export async function getAnimeByName(token, searchTerm){
+    const response = await api.get("/myanimesbyterm", {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        params: {
+            searchTerm
+        }
+    });
+    return response.data;
+};
 
 export async function deleteAnime(id, token){
     const response = await api.delete(`/myanimes/${id}`, 

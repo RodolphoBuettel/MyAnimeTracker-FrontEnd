@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getAnimeById } from "../../services/dashboardApi";
 import styled from "styled-components";
 
@@ -13,6 +13,7 @@ export default function AnimeDetails() {
     const [title, setTitle] = useState("");
     const [episodes, setEpisodes] = useState("");
     const [rank, setRank] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,11 +30,10 @@ export default function AnimeDetails() {
         fetchData();
     }, [idNumber]);
 
-    console.log(anime);
 
     return (
         <Container >
-            <InicialMenu>
+            <InicialMenu onClick={() => navigate("/searchanimes")}>
                 <h1>MyAnimeTracker</h1>
             </InicialMenu>
             <AnimePoster imageUrl = {backgroundImgUrl}>

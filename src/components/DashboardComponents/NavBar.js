@@ -5,7 +5,7 @@ import styled from "styled-components";
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleMenuMouseEnter = () => {
+  const handleMenuMouseEnter = (e) => {
     setIsOpen(true);
   };
 
